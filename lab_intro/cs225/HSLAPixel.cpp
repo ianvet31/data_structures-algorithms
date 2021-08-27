@@ -13,21 +13,21 @@ using namespace std;
 
 namespace cs225 {
 	HSLAPixel::HSLAPixel() {
-		h_ = 0.;
-		s_ = 0.;
-		l_ = 0.;
-		a_ = 1.0;
+		h = 0.;
+		s = 0.;
+		l = 0.;
+		a = 1.0;
 	}
-	HSLAPixel::HSLAPixel(double h, double s, double l) {
-		h_ = h;
-		s_ = s;
-		l_ = l;
-		a_ = 1.0;
+	HSLAPixel::HSLAPixel(double h_, double s_, double l_) {
+		h = h_;
+		s = s_;
+		l = l_;
+		a = 1.0;
 	}
-	HSLAPixel::HSLAPixel(double h, double s, double l, double a) {
-		h_ = h;
-		s_ = s;
-		l_ = l;
-		a_ = a;
+	HSLAPixel::HSLAPixel(double h_, double s_, double l_, double a_) {
+		h = h_;
+		s = s_;
+		l = l_;
+		a = a_;
 	}
 }

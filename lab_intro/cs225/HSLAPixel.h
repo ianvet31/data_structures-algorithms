@@ -13,10 +13,10 @@
 namespace cs225 {
 	class HSLAPixel {
 		public:
-			double h_;
-			double s_;
-			double l_;
-			double a_;
+			double h;
+			double s;
+			double l;
+			double a;
 
 			//constructors
 			
@@ -25,5 +25,5 @@ namespace cs225 {
 			HSLAPixel(double hue, double saturation, double luminance, double alpha);
 
 
-	}
-}
+	};
+};

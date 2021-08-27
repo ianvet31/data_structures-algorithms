@@ -61,7 +61,24 @@ PNG grayscale(PNG image) {
  * @return The image with a spotlight.
  */
 PNG createSpotlight(PNG image, int centerX, int centerY) {
+  for (unsigned int x = 0; x < image.width(); x++) {
+    for (unsigned int y = 0; y < image.height(); y++) {
 
+      //reference to pixel at (x, y)
+
+      HSLAPixel & pixel = image.getPixel(x, y);
+
+      //save the pixel's original luminance (to be altered)
+
+      int ol = pixel.l;
+      
+      int deltX = centerX - x;
+      int deltY = centerY - y;
+      double total_distance = sqrt((deltX*deltX) + (deltY*deltY));
+      
+      pixel.l = ol - (0.005 * total_distance);
+    }
+  }
   return image;
   
 }
@@ -78,7 +95,6 @@ PNG createSpotlight(PNG image, int centerX, int centerY) {
  * @return The illinify'd image.
 **/
 PNG illinify(PNG image) {
-
   return image;
 }
  
