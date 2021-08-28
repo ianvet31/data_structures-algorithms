@@ -70,7 +70,7 @@ PNG createSpotlight(PNG image, int centerX, int centerY) {
 
       //save the pixel's original luminance (to be altered)
 
-      int ol = pixel.l;
+      double ol = pixel.l;
       
       int deltX = centerX - x;
       int deltY = centerY - y;
@@ -95,6 +95,19 @@ PNG createSpotlight(PNG image, int centerX, int centerY) {
  * @return The illinify'd image.
 **/
 PNG illinify(PNG image) {
+  for (unsigned int x = 0; x < image.width(); x++) {
+    for (unsigned int y = 0; y < image.height(); y++) {
+      HSLAPixel & pixel = image.getPixel(x, y);
+      double oh = pixel.h;
+      
+      //check if pixel's hue is closer to illini blue(216) or orange (11)
+
+      if (oh > 126 || oh < 306) {
+        pixel.h = 216.;
+      }  else {
+	pixel.h = 11.;
+      }
+
   return image;
 }
  
