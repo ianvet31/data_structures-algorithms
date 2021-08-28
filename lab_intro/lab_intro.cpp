@@ -125,6 +125,16 @@ PNG illinify(PNG image) {
 * @return The watermarked image.
 */
 PNG watermark(PNG firstImage, PNG secondImage) {
-
+  for (unsigned int x = 0; x < secondImage.width(); x++) {
+    for (unsigned int y = 0; y < secondImage.height(); y++) {
+      HSLAPixel & pixel = secondImage.getPixel(x, y);
+      double olum = pixel.l;
+      if (olum == 1) {
+        HSLAPixel & pixel2 = firstImage.getPixel(x, y);
+        double olum2 = pixel2.l;
+        pixel2.l = olum2 + 0.2;
+      } else {
+        continue;
+      }
   return firstImage;
 }
