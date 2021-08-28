@@ -107,6 +107,8 @@ PNG illinify(PNG image) {
       }  else {
 	pixel.h = 11.;
       }
+    }
+  }
 
   return image;
 }
@@ -136,5 +138,7 @@ PNG watermark(PNG firstImage, PNG secondImage) {
       } else {
         continue;
       }
+    }
+  }
   return firstImage;
 }
