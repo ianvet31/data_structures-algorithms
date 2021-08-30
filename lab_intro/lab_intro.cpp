@@ -75,8 +75,12 @@ PNG createSpotlight(PNG image, int centerX, int centerY) {
       int deltX = centerX - x;
       int deltY = centerY - y;
       double total_distance = sqrt((deltX*deltX) + (deltY*deltY));
-      
-      pixel.l = ol - (0.005 * total_distance);
+      double dropoff = (1 - (0.005 * total_distance));
+      if (dropoff > 0.2) {
+         pixel.l = ol * dropoff;
+      } else {
+         pixel.l = ol * 0.2;
+      }
     }
   }
   return image;
@@ -102,7 +106,7 @@ PNG illinify(PNG image) {
       
       //check if pixel's hue is closer to illini blue(216) or orange (11)
 
-      if (oh > 126 || oh < 306) {
+      if (oh > 113.5 && oh < 293.5 ) {
         pixel.h = 216.;
       }  else {
 	pixel.h = 11.;
