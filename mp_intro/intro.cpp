@@ -25,11 +25,11 @@ cs225::PNG myArt(unsigned int width, unsigned int height) {
   for (unsigned x = 0; x < png.width(); x++) {
     for (unsigned y = 0; y < png.height(); y++) {
       HSLAPixel & pixel = png.getPixel(x, y);
-      double m = cos(x / 4) * cos(y / 5);
+      double m = cos(x / 4);
       pixel.h = m * 360;
-      pixel.l = m * 1;
-      pixel.s = m * 1;
-      pixel.a = 1.0;
+      pixel.l = 0.7;
+      pixel.s = 0.5;
+      pixel.a = 0.8;
     }
   }
 
