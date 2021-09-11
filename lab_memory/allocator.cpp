@@ -1,5 +1,5 @@
 /**
- * @file allocator.cpp
+ * @file calculator.app
  * Implementation of the Allocator class.
  */
 
@@ -10,6 +10,54 @@
 
 #include "allocator.h"
 #include "fileio.h"
+
+
+//Da big three
+
+//CC
+Allocator::Allocator(const Allocator &other)
+{
+    clear();
+    copy(other);
+}
+
+//AO
+Allocator &Allocator::operator=(const Allocator &other)
+{
+    if (this != &other) {
+      clear();
+      copy(other);
+    }
+    return *this;
+}
+
+//DS
+Allocator::~Allocator()
+{
+  clear();
+}
+
+void Allocator::clear()
+{
+  if (alpha != NULL) {
+    delete [] alpha;
+    delete [] rooms;
+  }
+}
+
+void Allocator::copy(const Allocator &other)
+{
+  studentCount = other.studentCount;
+  roomCount = other.roomCount;
+  totalCapacity = other.totalCapacity;
+
+  rooms = new Room[roomCount];
+  alpha  = new Letter[26];
+  for (int i = 0; i < roomCount; i++) {
+    rooms[i] = other.rooms[i];
+    alpha[i] = other.alpha[i];
+  }
+}
 
 Allocator::Allocator(const std::string& studentFile, const std::string& roomFile)
 {
@@ -44,14 +92,15 @@ void Allocator::loadRooms(const std::string& file)
 {
     // Read in rooms
     fileio::loadRooms(file);
+    roomCount = fileio::getNumRooms();
     rooms = new Room[roomCount];
 
     totalCapacity = 0;
     int i = 0;
-    while (fileio::areMoreRooms()) {
-        i++; 
+    while (fileio::areMoreRooms()) { 
         rooms[i] = fileio::nextRoom();
         totalCapacity += rooms[i].capacity;
+	i++;
     }
 }
 
