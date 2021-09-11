@@ -12,55 +12,21 @@
 #include "fileio.h"
 
 
-//Da big three
-
-//CC
-Allocator::Allocator(const Allocator &other)
-{
-    clear();
-    copy(other);
-}
-
-//AO
-Allocator &Allocator::operator=(const Allocator &other)
-{
-    if (this != &other) {
-      clear();
-      copy(other);
-    }
-    return *this;
-}
-
 //DS
 Allocator::~Allocator()
 {
-  clear();
+  delete[] alpha;
+  alpha = NULL;
+  delete[] rooms;
+  rooms = NULL;
 }
 
-void Allocator::clear()
-{
-  if (alpha != NULL) {
-    delete [] alpha;
-    delete [] rooms;
-  }
-}
-
-void Allocator::copy(const Allocator &other)
-{
-  studentCount = other.studentCount;
-  roomCount = other.roomCount;
-  totalCapacity = other.totalCapacity;
-
-  rooms = new Room[roomCount];
-  alpha  = new Letter[26];
-  for (int i = 0; i < roomCount; i++) {
-    rooms[i] = other.rooms[i];
-    alpha[i] = other.alpha[i];
-  }
-}
 
 Allocator::Allocator(const std::string& studentFile, const std::string& roomFile)
 {
+    studentCount = 0;
+    roomCount = 0;
+    totalCapacity = 0;
     createLetterGroups();
     loadStudents(studentFile);
     loadRooms(roomFile);
