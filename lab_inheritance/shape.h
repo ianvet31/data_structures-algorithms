@@ -35,23 +35,23 @@ class Shape : public Drawable
      */
     Shape(const Vector2& center, const cs225::HSLAPixel& color);
 
-    ~Shape()
+    virtual  ~Shape()
     { /* Nothing */
-    }
+    };
 
     /**
      * Computes and returns the area of the Shape in pixels
      *
      * @return the area (in pixels) of the Shape
      */
-    int area() const;
+    virtual  int area() const = 0;
 
     /**
      * Computes and returns the perimeter of the Shape in pixels
      *
      * @return the perimeter (in pixels) of the Shape
      */
-    int perimeter() const;
+    virtual  int perimeter() const = 0;
 
     /**
      * Checks to see if the Vector2 p is contained inside of the Shape
