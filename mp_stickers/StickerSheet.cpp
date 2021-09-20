@@ -6,36 +6,50 @@ using namespace cs225;
 
 StickerSheet::StickerSheet(const Image & picture, unsigned max) {
     stickers_num = max;
-    sheet = new Sticker[stickers_num];
     img = new Image(picture);
     render_img = new Image();
+    sheet = new Sticker[stickers_num]();
 }
 
-
-void StickerSheet::copy(const StickerSheet& other) {
-    stickers_num = other.stickers_num;
-    img = new Image(*other.img);
-    delete[] sheet;
-    sheet = new Sticker[stickers_num];
-    for (unsigned i = 0; i < stickers_num; i++) {
-        sheet[i].image_ = other.sheet[i].image_;
-    }
-}
 StickerSheet::StickerSheet(const StickerSheet& other) {
     copy(other);
 }
 
+StickerSheet const & StickerSheet::operator=(const StickerSheet& other) {
+    if (this != & other) {
+        destruct();
+        copy(other);
+    }
+    return *this;
+}
+
+StickerSheet::~StickerSheet() {
+    destruct();
+}
+
+void StickerSheet::copy(const StickerSheet& other) {
+    stickers_num = other.stickers_num;
+    img = new Image(*(other.img));
+    render_img = new Image(*(other.render_img));
+    sheet = new Sticker[stickers_num]();
+    for (unsigned i = 0; i < stickers_num; i++) {
+        if (other.sheet[i].image_ != NULL) {
+            sheet[i].image_ = new Image(*(other.sheet[i].image_));
+            sheet[i].x_ = other.sheet[i].x_;
+            sheet[i].y_ = other.sheet[i].y_;
+        }
+    }
+}
+
 void StickerSheet::destruct() {
-    delete[] sheet;
+   
     for (unsigned i = 0; i < stickers_num; i++) {
         delete sheet[i].image_;
         sheet[i].image_ = NULL;
     }
     sheet = NULL;
 }
-StickerSheet::~StickerSheet() {
-    destruct();
-}
+
 
 
 int StickerSheet::addSticker(Image & sticker, unsigned x, unsigned y) {
@@ -52,7 +66,7 @@ int StickerSheet::addSticker(Image & sticker, unsigned x, unsigned y) {
 }
 
 void StickerSheet::changeMaxStickers(unsigned max) {
-    Sticker* newSheet = new Sticker[max];
+    Sticker * newSheet = new Sticker[max]();
     for (unsigned i = 0; i < stickers_num; i++) {
         if (i < max) {
             newSheet[i].image_ = sheet[i].image_;
@@ -70,27 +84,19 @@ void StickerSheet::changeMaxStickers(unsigned max) {
 }
 
 Image* StickerSheet::getSticker(unsigned index) {
-    if (index >= 0 & index < stickers_num) {
-        Image* imgr = sheet[index].image_;
-        return imgr;
+    if (index < stickers_num) {
+        return sheet[index].image_;
     } else {
         return NULL;
     }
 }
 
-const StickerSheet& StickerSheet::operator=(const StickerSheet& other) {
-    if (this != & other) {
-        destruct();
-        copy(other);
-    }
-    return *this;
-}
+
 void StickerSheet::removeSticker(unsigned index) {
-    if (index >= 0 & index < stickers_num) {
+    if (index < stickers_num) {
         if (sheet[index].image_ != NULL) {
             delete sheet[index].image_;
-            sheet[index].x_ = 0;
-            sheet[index].y_ = 0;
+            sheet[index].image_ = NULL;
         }
     }
 }
@@ -99,12 +105,11 @@ Image StickerSheet::render() const {
     unsigned w = img->width();
     unsigned h = img->height();
 
-
     for (unsigned i = 0; i < stickers_num; i++) {
         Sticker cur = sheet[i];
         if (cur.image_ != NULL) {
-            w = fmax(w, cur.x_ + cur.image_->width());
-            h = fmax(h, cur.y_ + cur.image_->height());
+            w = (unsigned) fmax(w, cur.x_ + cur.image_->width());
+            h = (unsigned) fmax(h, cur.y_ + cur.image_->height());
         }
     }
 
@@ -112,25 +117,25 @@ Image StickerSheet::render() const {
     render_img->resize(w, h);
     
     for (unsigned i = 0; i < stickers_num; i++) {
-        Sticker current = sheet[i];
-        if (current.image_ != NULL) {
-            for (unsigned x = 0; x < render_img->width(); x++) {
-                for (unsigned y = 0; y < render_img->height(); y++) {
-                    HSLAPixel & oP = render_img->getPixel(x, y);
-                    HSLAPixel & sP = current.image_->getPixel(x, y);
-                    if (oP.a != 0) {
+        if (sheet[i].image_ != NULL) {
+            Sticker cur = sheet[i];
+            for (unsigned x = 0; x < cur.image_->width(); x++) {
+                for (unsigned y = 0; y < cur.image_->height(); y++) {
+                    HSLAPixel & oP = render_img->getPixel(x + cur.x_, y + cur.y_);
+                    HSLAPixel & sP = cur.image_->getPixel(x, y);
+                    if (sP.a != 0) {
                         oP = sP;
                     }
                 }
             }
         }
-        
     }
     return *render_img;
 }
 
+
 bool StickerSheet::translate(unsigned index, unsigned x, unsigned y) {
-    if (index < stickers_num) {
+    if (index < stickers_num & sheet[index].image_ != NULL) {
         sheet[index].x_ = x;
         sheet[index].y_ = y;
         return true;
@@ -138,4 +143,3 @@ bool StickerSheet::translate(unsigned index, unsigned x, unsigned y) {
         return false;
     }
 }
-

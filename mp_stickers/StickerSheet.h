@@ -12,11 +12,13 @@ namespace cs225 {
 
             StickerSheet(const Image &picture, unsigned max);
 
-            ~StickerSheet();
-
             StickerSheet(const StickerSheet &other);
 
             const StickerSheet& operator=(const StickerSheet &other);
+
+            ~StickerSheet();
+
+
 
             void changeMaxStickers(unsigned max);
 
@@ -31,15 +33,14 @@ namespace cs225 {
             Image render() const;
 
         private:
-
-            void copy(const StickerSheet & other);
-            void destruct();
-
             typedef struct {
                 Image* image_;
                 unsigned x_;
                 unsigned y_;
             } Sticker;
+
+            void copy(const StickerSheet & other);
+            void destruct();
 
             unsigned stickers_num;
 
@@ -48,8 +49,6 @@ namespace cs225 {
             Image* render_img;
 
             Sticker* sheet;
-
-
 
     };
 }
