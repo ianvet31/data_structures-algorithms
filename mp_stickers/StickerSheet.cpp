@@ -1,12 +1,14 @@
 #include "StickerSheet.h"
-
+#include <iostream>
+#include <cmath>
+#include "Image.h"
 using namespace cs225;
 
-StickerSheet::StickerSheet(const Image &picture, unsigned max) {
+StickerSheet::StickerSheet(const Image & picture, unsigned max) {
     stickers_num = max;
+    sheet = new Sticker[stickers_num];
     img = new Image(picture);
     render_img = new Image();
-    sheet = new Sticker[stickers_num];
 }
 
 
@@ -28,43 +30,41 @@ void StickerSheet::destruct() {
     for (unsigned i = 0; i < stickers_num; i++) {
         delete sheet[i].image_;
         sheet[i].image_ = NULL;
-        sheet[i].x_ = NULL;
-        sheet[i].y_ = NULL;
     }
+    sheet = NULL;
 }
 StickerSheet::~StickerSheet() {
     destruct();
 }
 
 
-
-int StickerSheet::addSticker(Image& sticker, unsigned x, unsigned y) {
+int StickerSheet::addSticker(Image & sticker, unsigned x, unsigned y) {
     for (unsigned i = 0; i < stickers_num; i++) {
-        Sticker curr = sheet[i];
-        if (curr.image_ == NULL) {
-            curr.image_ = new Image(sticker);
-            curr.x_ = x;
-            curr.y_ = y;
+        if (sheet[i].image_ == NULL) {
+            sheet[i].image_ = new Image(sticker);
+            sheet[i].x_ = x;
+            sheet[i].y_ = y;
+            return i;
 
         }
     }
+    return -1;
 }
 
 void StickerSheet::changeMaxStickers(unsigned max) {
-
     Sticker* newSheet = new Sticker[max];
-
     for (unsigned i = 0; i < stickers_num; i++) {
         if (i < max) {
             newSheet[i].image_ = sheet[i].image_;
             newSheet[i].x_ = sheet[i].x_;
             newSheet[i].y_ = sheet[i].y_;
 
-        } else {
+        } else if (sheet[i].image_ != NULL) {
             delete sheet[i].image_;
+            sheet[i].image_ = NULL;
         }
     }
-    delete sheet;
+    delete[] sheet;
     sheet = newSheet;
     stickers_num = max;
 }
@@ -87,26 +87,44 @@ const StickerSheet& StickerSheet::operator=(const StickerSheet& other) {
 }
 void StickerSheet::removeSticker(unsigned index) {
     if (index >= 0 & index < stickers_num) {
-        delete sheet[index].image_;
+        if (sheet[index].image_ != NULL) {
+            delete sheet[index].image_;
+            sheet[index].x_ = 0;
+            sheet[index].y_ = 0;
+        }
     }
 }
 
 Image StickerSheet::render() const {
     unsigned w = img->width();
     unsigned h = img->height();
+
+
+    for (unsigned i = 0; i < stickers_num; i++) {
+        Sticker cur = sheet[i];
+        if (cur.image_ != NULL) {
+            w = fmax(w, cur.x_ + cur.image_->width());
+            h = fmax(h, cur.y_ + cur.image_->height());
+        }
+    }
+
     *render_img = *img;
     render_img->resize(w, h);
+    
     for (unsigned i = 0; i < stickers_num; i++) {
         Sticker current = sheet[i];
-        for (unsigned x = 0; x < render_img->width(); x++) {
-            for (unsigned y = 0; y < render_img->height(); y++) {
-                HSLAPixel & oP = render_img->getPixel(x, y);
-                HSLAPixel & sP = current.image_->getPixel(x, y);
-                if (oP.a != 0) {
-                    oP = sP;
+        if (current.image_ != NULL) {
+            for (unsigned x = 0; x < render_img->width(); x++) {
+                for (unsigned y = 0; y < render_img->height(); y++) {
+                    HSLAPixel & oP = render_img->getPixel(x, y);
+                    HSLAPixel & sP = current.image_->getPixel(x, y);
+                    if (oP.a != 0) {
+                        oP = sP;
+                    }
                 }
             }
         }
+        
     }
     return *render_img;
 }

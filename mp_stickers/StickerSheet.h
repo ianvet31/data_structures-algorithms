@@ -18,17 +18,17 @@ namespace cs225 {
 
             const StickerSheet& operator=(const StickerSheet &other);
 
-            void StickerSheet::changeMaxStickers(unsigned max);
+            void changeMaxStickers(unsigned max);
 
-            int StickerSheet::addSticker(Image &sticker, unsigned x, unsigned y);
+            int addSticker(Image &sticker, unsigned x, unsigned y);
 
-            bool StickerSheet::translate(unsigned index, unsigned x, unsigned y);
+            bool translate(unsigned index, unsigned x, unsigned y);
 
-            void StickerSheet::removeSticker(unsigned index);
+            void removeSticker(unsigned index);
 
-            Image* StickerSheet::getSticker(unsigned index);
+            Image* getSticker(unsigned index);
 
-            Image StickerSheet::render() const;
+            Image render() const;
 
         private:
 
