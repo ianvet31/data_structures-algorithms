@@ -29,9 +29,17 @@ namespace QuackFun {
 template <typename T>
 T sum(stack<T>& s)
 {
+    if (s.empty()) {
+        return 0;
+    }
+    T current = s.top();
+    s.pop();
+    T main = current + sum(s);
+    s.push(current);
 
-    // Your code here
-    return T(); // stub return value (0 for primitive types). Change this!
+    return main;
+
+    // Your code here // stub return value (0 for primitive types). Change this!
                 // Note: T() is the default value for objects, and 0 for
                 // primitive types
 }
@@ -55,9 +63,36 @@ T sum(stack<T>& s)
  */
 bool isBalanced(queue<char> input)
 {
+    stack<char> s;
 
+    if (input.size() == 0) {
+        return true;
+    }
     // @TODO: Make less optimistic
-    return true;
+    for (unsigned i = 0; i < input.size(); i++) {
+        if (input.front() == '[') {
+            s.push('[');
+        }
+        if (input.front() == ']') {
+            if (s.size() == 0) {
+                return false;
+            }
+            if (s.top() == '[') {
+                s.pop();
+            }
+            else {
+                return false;
+            }
+        }
+        char curr = input.front();
+        input.push(input.front());
+        input.pop();
+    }
+    if (s.size() != 0) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 /**
@@ -79,7 +114,35 @@ template <typename T>
 void scramble(queue<T>& q)
 {
     stack<T> s;
-    // optional: queue<T> q2;
+    queue<T> q2;
+    unsigned f = 1;
+
+    while (!(q.empty())) {
+        if (f % 2 == 0) {
+            if (f > q.size()) {
+                f = q.size();
+            }
+            for (unsigned i = 0; i < f; i++) {
+                s.push(q.front());
+                q.pop();
+            }
+            for (unsigned j = 0; j < f; j++) {
+                q2.push(s.top());
+                s.pop();
+            }
+        
+        } else {
+            if (q.size() < f) {
+                f = q.size();
+            }
+            for (unsigned k = 0; k < f; k++) {
+                q2.push(q.front());
+                q.pop();
+            }
+        }
+        f++;
+    }
+    q = q2;
 
     // Your code here
 }

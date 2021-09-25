@@ -20,10 +20,13 @@
  * @param n The number to sum the digits of
  * @return  The sum of its digits
  */
-int RecursionExercises::sumDigits(int n)
+int RecursionExercises::sumDigits(int n) //650
 {
-
-    return -1;
+    int curr = n  % 10;
+    if ((n / 10) < 1) {
+        return curr;
+    }
+    return curr + sumDigits(n / 10);
 }
 
 /**
@@ -45,6 +48,9 @@ int RecursionExercises::sumDigits(int n)
  */
 int RecursionExercises::triangle(int rows)
 {
+    if (rows == 0) {
+        return 0;
+    }
 
-    return -1;
+    return rows + triangle(rows - 1);
 }
