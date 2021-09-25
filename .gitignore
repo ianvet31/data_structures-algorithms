@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Prerequisites
 *.d
 
@@ -32,6 +33,8 @@
 *.out
 *.app
 =======
+=======
+>>>>>>> release/mp_lists
 # Prerequisites
 *.d
 
@@ -64,4 +67,7 @@
 *.exe
 *.out
 *.app
+<<<<<<< HEAD
 >>>>>>> release/lab_quacks
+=======
+>>>>>>> release/mp_lists
