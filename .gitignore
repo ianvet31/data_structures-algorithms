@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Prerequisites
 *.d
 
@@ -35,6 +36,8 @@
 =======
 =======
 >>>>>>> release/mp_lists
+=======
+>>>>>>> release/lab_trees
 # Prerequisites
 *.d
 
@@ -68,6 +71,9 @@
 *.out
 *.app
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> release/lab_quacks
 =======
 >>>>>>> release/mp_lists
+=======
+>>>>>>> release/lab_trees
