@@ -163,7 +163,7 @@ void List<T>::tripleRotate() {
   ListNode* curr = head_;
 
   int threes = length_/3;
-  
+
   if (threes > 0) {
     head_ = head_->next;
     head_->prev = NULL;
@@ -216,6 +216,7 @@ void List<T>::reverse() {
 template <typename T>
 void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
   /// @todo Graded in MP3.2
+  
 }
 
 /**
