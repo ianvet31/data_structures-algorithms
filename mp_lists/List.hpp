@@ -163,7 +163,7 @@ void List<T>::tripleRotate() {
   ListNode* curr = head_;
 
   int threes = length_/3;
-  
+
   if (threes > 0) {
     head_ = head_->next;
     head_->prev = NULL;
@@ -213,9 +213,55 @@ void List<T>::reverse() {
  * @param endPoint A pointer reference to the last node in the sequence to
  *  be reversed.
  */
+
 template <typename T>
 void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
-  /// @todo Graded in MP3.2
+  /// @todo Graded in MP3.1
+  if (startPoint == endPoint){
+    return;
+  }
+
+  ListNode* curr;
+  ListNode* temp;
+  ListNode* l;
+  ListNode* r;
+  ListNode* start;
+  ListNode* end;
+  start = startPoint;
+  end = endPoint;
+
+  l = startPoint->prev;
+  r = endPoint->next;
+  temp = NULL;
+  curr = startPoint;
+
+  while (curr != endPoint){
+    temp = curr->prev;
+    curr->prev = curr->next;
+    curr->next = temp;
+    curr = curr->prev;
+  }
+
+  curr->next = curr->prev;
+  curr->prev = l;
+  startPoint->next = r;
+
+  if (l != NULL){
+    l->next = endPoint;
+  }
+  else {
+    head_ = endPoint;
+  }
+
+  if (r != NULL){
+    r->prev = startPoint;
+  }
+  else {
+    tail_ = startPoint;
+  }
+  endPoint = start;
+  startPoint = end;
+  return;
 }
 
 /**
@@ -226,9 +272,30 @@ void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
  */
 template <typename T>
 void List<T>::reverseNth(int n) {
-  /// @todo Graded in MP3.2
-}
+  /// @todo Graded in MP3.1
 
+  if (n <= 1 || head_ == NULL) {
+    return;
+  }
+  ListNode *start, *end;
+  start = head_;
+  end = head_;
+  int ys = n - 1;
+
+  while (start != NULL){
+    end = start;
+    for(int i = 0; i < ys; i++) {
+
+      if (end->next != NULL) {
+
+        end = end->next;
+      }
+    }
+    reverse(start, end);
+    start = end->next;
+  }
+
+}
 
 /**
  * Merges the given sorted list into the current sorted list.
@@ -268,15 +335,65 @@ void List<T>::mergeWith(List<T> & otherList) {
 template <typename T>
 typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) {
   /// @todo Graded in MP3.2
-  return NULL;
+  if (first == NULL) {
+    return second;
+  }
+  if (second == NULL) {
+    return first;
+  }
+  if (first == NULL && second == NULL) {
+    return NULL;
+  }
+  ListNode* temp;
+  ListNode* curr1;
+  ListNode* curr2;
+  ListNode* next1;
+  ListNode* next2;
+
+
+  if (second->data < first->data) {
+    temp = second;
+    second = first;
+    first = temp;
+    if (first != NULL) {
+      first->prev = NULL;
+    }
+  }
+  curr2 = second;
+  curr1 = first;
+  while (curr2 != NULL) {
+    next2 = curr2->next;
+    while (curr1 != NULL){
+      next1 = curr1->next;
+      if (curr2->data < curr1->data){
+        curr2->next = curr1;
+        curr1->prev->next = curr2;
+        curr2->prev = curr1->prev;
+        curr1->prev = curr2;
+        break;
+      }
+      else if (next1 == NULL && curr2 != NULL){ //first reaches the end but second still has nodes
+          curr1->next = curr2;
+          curr2->prev = curr1;
+          break;
+      }
+      else {
+        curr1 = next1;
+      }
+    }
+
+    if (curr2->prev == curr1 && curr1->next == curr2) {
+      break;
+    }
+    curr2 = next2;
+  }
+  return first;
 }
 
 /**
  * Sorts a chain of linked memory given a start node and a size.
  * This is the recursive helper for the Mergesort algorithm (i.e., this is
  * the divide-and-conquer step).
- *
- * Called by the public sort function in List-given.hpp
  *
  * @param start Starting point of the chain.
  * @param chainLength Size of the chain to be sorted.
@@ -285,5 +402,26 @@ typename List<T>::ListNode * List<T>::merge(ListNode * first, ListNode* second) 
 template <typename T>
 typename List<T>::ListNode* List<T>::mergesort(ListNode * start, int chainLength) {
   /// @todo Graded in MP3.2
-  return NULL;
+  if (chainLength == 1) {
+    start->next = NULL;
+    start->prev = NULL;
+    return start;
+  }
+  else {
+    int breakp;
+    breakp = int(chainLength / 2);
+    ListNode* temp = start;
+    for (int i = 1; i <= breakp; i++) {
+      temp = temp->next;
+    }
+    if (temp != NULL) {
+      temp->prev->next = NULL;
+      temp->prev = NULL;
+    }
+    temp = mergesort(temp, chainLength - breakp);
+    start = mergesort(start, breakp);
+    start = merge(start, temp);
+    return start;
+  }
+
 }
