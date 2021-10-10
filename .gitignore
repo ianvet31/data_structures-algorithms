@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Prerequisites
 *.d
 
@@ -38,6 +39,8 @@
 >>>>>>> release/mp_lists
 =======
 >>>>>>> release/lab_trees
+=======
+>>>>>>> release/lab_huffman
 # Prerequisites
 *.d
 
@@ -70,6 +73,7 @@
 *.exe
 *.out
 *.app
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> release/lab_quacks
@@ -77,3 +81,5 @@
 >>>>>>> release/mp_lists
 =======
 >>>>>>> release/lab_trees
+=======
+>>>>>>> release/lab_huffman
