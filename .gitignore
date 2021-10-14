@@ -3,6 +3,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Prerequisites
 *.d
 
@@ -44,6 +45,8 @@
 >>>>>>> release/lab_huffman
 =======
 >>>>>>> release/lab_avl
+=======
+>>>>>>> release/mp_traversals
 # Prerequisites
 *.d
 
@@ -76,6 +79,7 @@
 *.exe
 *.out
 *.app
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -89,3 +93,5 @@
 >>>>>>> release/lab_huffman
 =======
 >>>>>>> release/lab_avl
+=======
+>>>>>>> release/mp_traversals
