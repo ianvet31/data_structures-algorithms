@@ -14,10 +14,10 @@ using namespace cs225;
  * A base class for traversal algorithms on images.
  *
  * BFS and DFS will inherit from this class
- * 
+ *
  * Each derived class must maintain an ordering of points on an image,
  * through calls to the virtual member functions `add` and `pop`.
- * 
+ *
  * A derived class provides a traversal by returning instances of
  * ImageTraversal::Iterator.
  */
@@ -29,17 +29,23 @@ public:
   class Iterator : std::iterator<std::forward_iterator_tag, Point> {
   public:
     Iterator();
+    Iterator(ImageTraversal* traversal, Point start, PNG png, double tolerance);
 
     Iterator & operator++();
     Point operator*();
     bool operator!=(const Iterator &other);
+    bool check(Point p);
 
-    /** @todo [Part 1] */
-    /** add member functions if neccesary*/
 
   private:
     /** @todo [Part 1] */
     /** add private members here if neccesary*/
+    ImageTraversal* traversal_;
+    Point start_;
+    Point current_;
+    PNG png_;
+    double tolerance_;
+    bool finished_;
 
   };
 
@@ -47,6 +53,9 @@ public:
    * The begining of an iterator
    * Virtual function. Derived class need to implement this
    */
+
+  //virtual ~ImageTraversal()=0;
+
   virtual Iterator begin() = 0;
 
   /**
@@ -76,6 +85,9 @@ public:
    */
   virtual bool empty() const = 0;
 
+  virtual void setVisited(Point p) = 0;
+  virtual bool getVisited(Point p) = 0;
+
 private:
-  static double calculateDelta(const HSLAPixel & p1, const HSLAPixel & p2);  
+  static double calculateDelta(const HSLAPixel & p1, const HSLAPixel & p2);
 };

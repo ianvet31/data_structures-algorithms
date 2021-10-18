@@ -31,8 +31,19 @@ public:
   Point pop();
   Point peek() const;
   bool empty() const;
+  bool getVisited(Point p);
+  void setVisited(Point p);
+  //PNG* png();
+  //double get_tolerance();
+  //~DFS();
 
 private:
 	/** @todo [Part 1] */
 	/** add private members here*/
+  Point start_;
+  PNG png_;
+  double tolerance_;
+  std::stack<Point> stack_;
+  std::vector<std::vector<bool>> visited;
+
 };

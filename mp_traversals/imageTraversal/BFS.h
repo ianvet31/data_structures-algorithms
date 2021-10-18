@@ -31,8 +31,16 @@ public:
   Point pop();
   Point peek() const;
   bool empty() const;
+  bool getVisited(Point p);
+  void setVisited(Point p);
 
 private:
   /** @todo [Part 1] */
   /** add private members here*/
+  
+  PNG png_;
+  Point start_;
+  double tolerance_;
+  std::vector<std::vector<bool>> visited;
+  std::queue<Point> queue_;
 };

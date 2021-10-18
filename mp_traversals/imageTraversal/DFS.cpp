@@ -16,14 +16,29 @@
 /**
  * Initializes a depth-first ImageTraversal on a given `png` image,
  * starting at `start`, and with a given `tolerance`.
- * 
+ *
  * @param png The image this DFS is going to traverse
  * @param start The start point of this DFS
  * @param tolerance If the current point is too different (difference larger than tolerance) with the start point,
  * it will not be included in this DFS
  */
-DFS::DFS(const PNG & png, const Point & start, double tolerance) {  
+DFS::DFS(const PNG & png, const Point & start, double tolerance) {
   /** @todo [Part 1] */
+  start_ = start;
+  tolerance_= tolerance;
+  png_ = png;
+  stack_.push(start_);
+  visited.resize(png_.width());
+  unsigned size_1 = visited.size();
+  for (unsigned i = 0; i < visited.size(); i++) {
+    unsigned size_2 = visited[i].size();
+    visited[i].resize(png_.height());
+    for (unsigned j = 0; j < visited[i].size(); j++) {
+      visited[i][j] = false;
+    }
+  }
+  visited[start_.x][start_.y] = true;
+
 }
 
 /**
@@ -31,7 +46,8 @@ DFS::DFS(const PNG & png, const Point & start, double tolerance) {
  */
 ImageTraversal::Iterator DFS::begin() {
   /** @todo [Part 1] */
-  return ImageTraversal::Iterator();
+
+  return ImageTraversal::Iterator(this, start_, png_, tolerance_);
 }
 
 /**
@@ -39,6 +55,7 @@ ImageTraversal::Iterator DFS::begin() {
  */
 ImageTraversal::Iterator DFS::end() {
   /** @todo [Part 1] */
+
   return ImageTraversal::Iterator();
 }
 
@@ -47,6 +64,8 @@ ImageTraversal::Iterator DFS::end() {
  */
 void DFS::add(const Point & point) {
   /** @todo [Part 1] */
+
+  stack_.push(point);
 }
 
 /**
@@ -54,7 +73,10 @@ void DFS::add(const Point & point) {
  */
 Point DFS::pop() {
   /** @todo [Part 1] */
-  return Point(0, 0);
+
+  Point t_point = stack_.top();
+  stack_.pop();
+  return t_point;
 }
 
 /**
@@ -62,7 +84,8 @@ Point DFS::pop() {
  */
 Point DFS::peek() const {
   /** @todo [Part 1] */
-  return Point(0, 0);
+
+  return stack_.top();
 }
 
 /**
@@ -70,5 +93,18 @@ Point DFS::peek() const {
  */
 bool DFS::empty() const {
   /** @todo [Part 1] */
-  return true;
+
+  return stack_.empty();
+}
+
+
+void DFS::setVisited(Point p) {
+
+  visited[p.x][p.y] = true;
+
+}
+
+bool DFS::getVisited(Point p) {
+
+  return visited[p.x][p.y];
 }
