@@ -10,6 +10,9 @@
  * @param key The key to look up.
  * @return The value (if found), the default V if not.
  */
+
+using namespace std;
+using std::vector;
 template <class K, class V>
 V BTree<K, V>::find(const K& key) const
 {
@@ -41,9 +44,21 @@ V BTree<K, V>::find(const BTreeNode* subroot, const K& key) const
      * 2, which is conveniently the same as first_larger_idx. If the subroot is
      * a leaf and we didn't find the key in it, then we have failed to find it
      * anywhere in the tree and return the default V.
+     * 
      */
 
-    return V();
+    if (first_larger_idx < subroot->elements.size()) { 
+    	DataPair cur_pair = subroot->elements[first_larger_idx];
+    	if (cur_pair.key == key) {
+            return cur_pair.value;
+        }
+    }
+
+    if (subroot->is_leaf) {
+        return V();
+    } else {
+        return find(subroot->children[first_larger_idx], key);
+    }
 }
 
 /**
@@ -141,6 +156,13 @@ void BTree<K, V>::split_child(BTreeNode* parent, size_t child_idx)
 
 
     /* TODO Your code goes here! */
+
+    parent->elements.insert(elem_itr, *mid_elem_itr);
+    parent->children.insert(child_itr, new_right);
+    new_right->elements.assign(mid_elem_itr + 1, child->elements.end());
+    new_right->children.assign(mid_child_itr, child->children.end());
+   	child->elements.erase(mid_elem_itr, child->elements.end());
+    child->children.erase(mid_child_itr, child->children.end());
 }
 
 /**
@@ -165,4 +187,21 @@ void BTree<K, V>::insert(BTreeNode* subroot, const DataPair& pair)
     size_t first_larger_idx = insertion_idx(subroot->elements, pair);
 
     /* TODO Your code goes here! */
+
+    if (first_larger_idx < subroot->elements.size()) {
+    	if (subroot->elements[first_larger_idx] == pair) {
+            return;
+        }
+    }
+    if (subroot->is_leaf) {
+    	auto itr = subroot->elements.begin() + first_larger_idx;
+    	subroot->elements.insert(itr, pair);
+    } else {
+    	BTreeNode * children = subroot->children[first_larger_idx];
+    	insert(children, pair);
+    	if (children->elements.size() >= order) {
+            split_child(subroot, first_larger_idx);
+        }
+    }
 }
+
