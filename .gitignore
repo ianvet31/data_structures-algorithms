@@ -4,6 +4,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Prerequisites
 *.d
 
@@ -47,6 +48,8 @@
 >>>>>>> release/lab_avl
 =======
 >>>>>>> release/mp_traversals
+=======
+>>>>>>> release/lab_btree
 # Prerequisites
 *.d
 
@@ -79,6 +82,7 @@
 *.exe
 *.out
 *.app
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -95,3 +99,5 @@
 >>>>>>> release/lab_avl
 =======
 >>>>>>> release/mp_traversals
+=======
+>>>>>>> release/lab_btree
