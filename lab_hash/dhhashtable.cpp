@@ -4,6 +4,9 @@
  */
 
 #include "dhhashtable.h"
+using hashes::hash;
+using hashes::secondary_hash;
+using std::pair;
 
 template <class K, class V>
 DHHashTable<K, V>::DHHashTable(size_t tsize)
@@ -81,8 +84,26 @@ void DHHashTable<K, V>::insert(K const& key, V const& value)
      *  forget to mark the cell for probing with should_probe!
      */
 
-    (void) key;   // prevent warnings... When you implement this function, remove this line.
-    (void) value; // prevent warnings... When you implement this function, remove this line.
+    elems += 1;
+
+    if (shouldResize()) {
+        resizeTable();
+    }
+
+     size_t index = hash(key, size);
+     size_t index_2 = secondary_hash(key, size);
+
+
+     while (should_probe[index]) {
+       index = (index + index_2) % size;
+     }
+
+     table[index] = new pair<K,V>(key, value);
+
+     should_probe[index] = true;
+
+    // (void) key;   // prevent warnings... When you implement this function, remove this line.
+    // (void) value; // prevent warnings... When you implement this function, remove this line.
 }
 
 template <class K, class V>
@@ -91,6 +112,13 @@ void DHHashTable<K, V>::remove(K const& key)
     /**
      * @todo Implement this function
      */
+    int index = findIndex(key);
+    if (index != -1) {
+       elems -= 1;
+       delete table[index];
+
+       table[index] = NULL;
+     }
 }
 
 template <class K, class V>
@@ -99,22 +127,39 @@ int DHHashTable<K, V>::findIndex(const K& key) const
     /**
      * @todo Implement this function
      */
+    size_t index = hash(key, size);
+    size_t index_2 = secondary_hash(key, size);
+    size_t temp = index;
+    while (should_probe[index]) {
+       if (table[index] != NULL && table[index]->first == key){
+         return index;
+       }
+
+       index = (index + index_2) % size;
+
+       if (index == temp) { 
+           break;
+       }
+
+    }
     return -1;
 }
 
 template <class K, class V>
 V DHHashTable<K, V>::find(K const& key) const
 {
-    int idx = findIndex(key);
-    if (idx != -1)
-        return table[idx]->second;
+    int index = findIndex(key);
+
+    if (index != -1) {
+        return table[index]->second;
+    }
     return V();
 }
 
 template <class K, class V>
 V& DHHashTable<K, V>::operator[](K const& key)
 {
-    // First, attempt to find the key and return its value by reference
+
     int idx = findIndex(key);
     if (idx == -1) {
         // otherwise, insert the default value and return it
