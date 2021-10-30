@@ -6,6 +6,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Prerequisites
 *.d
 
@@ -53,6 +54,8 @@
 >>>>>>> release/lab_btree
 =======
 >>>>>>> release/mp_mosaics
+=======
+>>>>>>> release/lab_hash
 # Prerequisites
 *.d
 
@@ -85,6 +88,7 @@
 *.exe
 *.out
 *.app
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -107,3 +111,5 @@
 >>>>>>> release/lab_btree
 =======
 >>>>>>> release/mp_mosaics
+=======
+>>>>>>> release/lab_hash
