@@ -162,7 +162,7 @@ V& LPHashTable<K, V>::operator[](K const& key)
     // First, attempt to find the key and return its value by reference
     int idx = findIndex(key);
     if (idx == -1) {
-        // otherwise, insert the default value and return it
+        
         insert(key, V());
         idx = findIndex(key);
     }

@@ -108,8 +108,9 @@ V SCHashTable<K, V>::find(K const& key) const
     size_t index = hash(key, size);
     typename list<pair<K, V>>::iterator it;
     for (it = table[index].begin(); it != table[index].end(); it++) {
-        if (it->first == key)
-            return it->second;
+        if (it->first == key) {
+            return it->second;/*  */
+        }
     }
     return V();
 }
@@ -120,8 +121,9 @@ V& SCHashTable<K, V>::operator[](K const& key)
     size_t index = hashes::hash(key, size);
     typename std::list<std::pair<K, V>>::iterator it;
     for (it = table[index].begin(); it != table[index].end(); it++) {
-        if (it->first == key)
+        if (it->first == key) {
             return it->second;
+        }
     }
 
     ++elems;

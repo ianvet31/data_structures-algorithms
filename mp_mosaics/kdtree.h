@@ -55,7 +55,7 @@ class KDTree
      *     cout << smallerDimVal(a, b, 2) << endl; // should print false
      *     cout << smallerDimVal(a, b, 1) << endl; // based on operator<, this should be true
      *
-     * @todo This function is required for Part 1.
+     * @todo This function is required for MP 5.1.
      * @param first Point to compare.
      * @param second Second point to compare.
      * @param curDim Dimension these points are being compared in.
@@ -92,7 +92,7 @@ class KDTree
      *     cout << shouldReplace(target, currentBest3, possibleBest3) << endl;
      *      // based on operator<, this should be false
      *
-     * @todo This function is required for Part 1.
+     * @todo This function is required for MP 5.1.
      * @param target The Point we want to be close to.
      * @param currentBest The Point that is currently our closest Point
      *    to target.
@@ -147,7 +147,7 @@ class KDTree
      * that "select pivotIndex between left and right" means that you
      * should choose a midpoint between the left and right indices.
      *
-     * @todo This function is required for Part 1.
+     * @todo This function is required for MP 5.1.
      * @param newPoints The vector of points to build your KDTree off of.
      */
     KDTree(const vector<Point<Dim>>& newPoints);
@@ -223,9 +223,9 @@ class KDTree
      * (https://courses.engr.illinois.edu/cs225/sp2018/private/mps/5/moore-tutorial.pdf).
      *
      * @see There is [an example]
-     * (https://courses.engr.illinois.edu/cs225/sp2019/mps/mosaics/) in the MP instructions.
+     * (https://courses.engr.illinois.edu/cs225/sp2018/mps/5/) in the MP5 instruction.
      *
-     * @todo This function is required for Part 1.
+     * @todo This function is required for MP 5.1.
      * @param query The point we wish to find the closest neighbor to in the
      *  tree.
      * @return The closest point to a in the KDTree.
@@ -259,6 +259,36 @@ class KDTree
     /**
      * @todo Add your helper functions here.
      */
+     /*  This is the helper function for quick select.
+      *
+      */
+     unsigned quickSelectposition(vector<Point<Dim>>& list, int dimension, unsigned left, unsigned right, unsigned pivotIndex);
+
+     /*  This function implements the quickselect algorithm.
+      *
+      */
+     Point<Dim>& quickSelect(vector<Point<Dim>>& list, int dimension, unsigned left, unsigned right, unsigned k);
+
+     /*  This is the recursive helper function for the KDTree constructor.
+      *
+      *  In order to create a kdtree made of nodes that contain points
+      *  from a passed in vector, there is a base case to return a NULL
+      *  KDTreeNode pointer and three main steps happen in the recursive
+      *  step of the function...
+      *      1. a node is dynamically initiated using the point found at the
+      *          median index of the section of the vector defined by left and right
+      *      (the dimension is incremented in order for the next level of nodes)
+      *      2. the left child is assigned to the output of a recursive call
+      *          where the right index is set the the left of the median
+      *      3. the right child is assigned to the output of another recursive call
+      *          where the left index is set the the right of the median
+      */
+     KDTreeNode* ctorHelper(vector<Point<Dim>>& points_, int dimension, unsigned left, unsigned right);
+     
+     Point<Dim> findNearestNeighbor(KDTreeNode * subroot, const Point<Dim>& query, int dimension) const;
+
+     void clear(KDTreeNode * subroot);
+     void copy(KDTreeNode * subroot, KDTreeNode * othersubroot);
 };
 
 #include "kdtree.hpp"
