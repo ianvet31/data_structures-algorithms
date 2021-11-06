@@ -7,6 +7,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Prerequisites
 *.d
 
@@ -56,6 +57,8 @@
 >>>>>>> release/mp_mosaics
 =======
 >>>>>>> release/lab_hash
+=======
+>>>>>>> release/lab_heaps
 # Prerequisites
 *.d
 
@@ -88,6 +91,7 @@
 *.exe
 *.out
 *.app
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -113,3 +117,5 @@
 >>>>>>> release/mp_mosaics
 =======
 >>>>>>> release/lab_hash
+=======
+>>>>>>> release/lab_heaps
