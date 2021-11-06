@@ -8,6 +8,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Prerequisites
 *.d
 
@@ -59,6 +60,8 @@
 >>>>>>> release/lab_hash
 =======
 >>>>>>> release/lab_heaps
+=======
+>>>>>>> release/mp_mazes
 # Prerequisites
 *.d
 
@@ -91,6 +94,7 @@
 *.exe
 *.out
 *.app
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -119,3 +123,5 @@
 >>>>>>> release/lab_hash
 =======
 >>>>>>> release/lab_heaps
+=======
+>>>>>>> release/mp_mazes
