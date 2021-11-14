@@ -8,7 +8,7 @@
 
 #include "anagram_dict.h"
 
-#include <algorithm> /* I wonder why this is included... */
+#include <algorithm>
 #include <fstream>
 
 using std::string;
@@ -22,7 +22,15 @@ using std::ifstream;
  */
 AnagramDict::AnagramDict(const string& filename)
 {
-    /* Your code goes here! */
+    ifstream wordsFile(filename);
+    string word;
+    if (wordsFile.is_open()) {
+      while (getline(wordsFile, word)) {
+        string temp = word;
+        sort(temp.begin(), temp.end());
+        dict[temp].push_back(word);
+      }
+    }
 }
 
 /**
@@ -31,7 +39,13 @@ AnagramDict::AnagramDict(const string& filename)
  */
 AnagramDict::AnagramDict(const vector<string>& words)
 {
-    /* Your code goes here! */
+    for (unsigned i = 0; i < words.size(); i++) {
+
+        string t = words[i];
+        std::sort(t.begin(), t.end());
+        dict[t].push_back(words[i]);
+        
+    } 
 }
 
 /**
@@ -42,8 +56,14 @@ AnagramDict::AnagramDict(const vector<string>& words)
  */
 vector<string> AnagramDict::get_anagrams(const string& word) const
 {
-    /* Your code goes here! */
-    return vector<string>();
+    string t = word;
+    std::sort(t.begin(), t.end());
+
+    if (dict.find(t) == dict.end() || dict.at(t).size() == 1) {
+        return vector<string>();
+    } else {
+        return dict.at(t);
+    }
 }
 
 /**
@@ -54,6 +74,11 @@ vector<string> AnagramDict::get_anagrams(const string& word) const
  */
 vector<vector<string>> AnagramDict::get_all_anagrams() const
 {
-    /* Your code goes here! */
-    return vector<vector<string>>();
+    vector<vector<string>> anagram_vect;
+    for (std::pair<string, vector<string>> word : dict) {
+      if (word.second.size() > 1) {
+          anagram_vect.push_back(word.second);
+      }
+    }
+    return anagram_vect;
 }
