@@ -7,7 +7,16 @@ using namespace std;
 
 int main()
 {
-    // Write your own main here
-    cout << "Add your own tests here! Modify main.cpp" << endl;
+    SquareMaze m;
+
+    m.makeMaze(64, 64);
+
+
+    cs225::PNG* creative = m.drawCreativeMaze();
+
+    creative->writeToFile("creative.png");
+
+    delete creative;
+    
     return 0;
 }

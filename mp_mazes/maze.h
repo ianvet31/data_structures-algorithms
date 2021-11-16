@@ -32,13 +32,13 @@ public:
 
 private:
 
-  vector<pair<bool, bool>> walls;
-
-  DisjointSets dsets;
-
   int _width;
 
   int _height;
+
+  vector<pair<bool, bool>> walls;
+
+  DisjointSets dsets;
 
 
 };
